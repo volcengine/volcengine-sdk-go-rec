@@ -164,28 +164,12 @@ func (receiver *Context) fillHosts(param *ContextParam) {
 		receiver.hosts = param.Hosts
 		return
 	}
-	if param.Region == RegionCn {
-		receiver.hosts = cnHosts
-		return
-	}
-	if param.Region == RegionSg {
-		receiver.hosts = sgHosts
-		return
-	}
-	if param.Region == RegionUs {
-		receiver.hosts = usHosts
-		return
-	}
 	if param.Region == RegionAirCn {
 		receiver.hosts = airCnHosts
 		return
 	}
 	if param.Region == RegionAirSg {
 		receiver.hosts = airSgHosts
-		return
-	}
-	if param.Region == RegionSaasSg {
-		receiver.hosts = saasSgHosts
 		return
 	}
 }
@@ -205,10 +189,8 @@ func (receiver *Context) fillVolcCredentials(param *ContextParam) {
 
 	// fill region
 	switch param.Region {
-	case RegionSg, RegionAirSg, RegionSaasSg:
+	case RegionAirSg:
 		c.Region = "ap-singapore-1"
-	case RegionUs:
-		c.Region = "us-east-1"
 	default: //Region "CN" and "AIR_CN" belong to "cn-north-1"
 		c.Region = "cn-north-1"
 	}
