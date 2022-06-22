@@ -4,26 +4,13 @@ type Region int
 
 const (
 	RegionUnknown Region = iota
-	RegionCn
-	RegionSg
-	RegionUs
 	RegionAirCn
 	RegionAirSg
-	RegionSaasSg
 )
 
 var (
-	cnHosts = []string{"rec-b.volcengineapi.com", "rec.volcengineapi.com"}
-
-	sgHosts = []string{"rec-ap-singapore-1.byteplusapi.com"}
-
-	usHosts = []string{"rec-us-east-1.byteplusapi.com"}
-
 	airCnHosts = []string{"byteair-api-cn1.snssdk.com"}
-
 	airSgHosts = []string{"byteair-api-sg1.byteintlapi.com"}
-
-	saasSgHosts = []string{"rec-api-sg1.recplusapi.com"}
 )
 
 const (
