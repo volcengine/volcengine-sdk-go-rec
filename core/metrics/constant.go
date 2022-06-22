@@ -3,8 +3,8 @@ package metrics
 import "time"
 
 const (
-	defaultMetricsDomain = "bot.snssdk.com"
-	defaultMetricsPrefix = "byteplus.rec.sdk"
+	defaultMetricsDomain = "byteair-api-cn1.snssdk.com"
+	defaultMetricsPrefix = "volcengine.rec.sdk"
 	defaultHttpSchema    = "https"
 
 	counterUrlFormat = "%s://%s/api/counter"
