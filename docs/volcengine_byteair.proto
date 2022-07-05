@@ -519,6 +519,9 @@ message CallbackResponse {
   // Output only.
   // Detailed error message.
   string message = 2;
+
+  // success mark
+  bool success = 3;
 }
 
 // The Volcengine General service.
