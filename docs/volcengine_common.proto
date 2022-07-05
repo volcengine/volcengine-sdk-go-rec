@@ -30,6 +30,9 @@ message Status {
 
   // Output only. Detailed error message.
   string message = 2;
+
+  // success mark
+  bool success = 3;
 }
 
 // Metadata related to the progress of the Import operation. This will be
