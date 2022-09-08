@@ -22,7 +22,7 @@ type ContextParam struct {
 
 func (receiver *ContextParam) checkRequiredField(param *ContextParam) error {
 	if param.Tenant == "" {
-		return errors.New("tenant is null")
+		return errors.New("application id is null")
 	}
 	if param.TenantId == "" {
 		return errors.New("tenant id is null")
