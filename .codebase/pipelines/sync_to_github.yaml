@@ -3,8 +3,7 @@ name: Sync code to Github
 trigger:
   # MR merged or git push
   push:
-    branches:
-      - *
+    type: [branch]
 jobs:
   sync_to_github:
     name: Sync code to github
