@@ -4,7 +4,7 @@ trigger:
   # MR merged or git push
   push:
     branches:
-      - master
+      - *
 jobs:
   sync_to_github:
     name: Sync code to github
