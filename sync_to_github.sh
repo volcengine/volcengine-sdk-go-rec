@@ -10,7 +10,7 @@ GitlabFolder=$(pwd)
 Commits=$(git rev-list --pretty=format:'[%s]' origin/master..HEAD)
 
 # 拉取github仓库
-Repo="volcengine-sdk-go-rec"
+Repo=$(echo $CI_REPO_NAME|awk '{split($1,arr,"/"); print arr[2]}')
 cd ..
 mkdir .tmp_git
 cd .tmp_git
@@ -31,7 +31,7 @@ rm -rf sync_to_github.sh
 # 提交修改
 if [[ -n $(git status -s) ]]; then
   # 如果有修改才提交
-  git remote set-url origin https://ganlin.coder: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@github.com/volcengine/${Repo}.git
+  git remote set-url origin https://${GIT_NAME}:${GIT_TOKEN}@github.com/volcengine/${Repo}.git
   git remote -v
   git add -A .
   git commit --amend --reset-author -m "[SDK] Sync to github." -m "$Commits"
@@ -41,7 +41,7 @@ if [[ -n $(git status -s) ]]; then
   curl \
     -X POST \
     -H "Accept: application/vnd.github.v3+json" \
-    -u "ganlin.coder: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" \
+    -u "${GIT_NAME}:${GIT_TOKEN}" \
     https://api.github.com/repos/volcengine/${Repo}/pulls \
     -d "{\"head\": \"$NEW_BRANCH\", \"base\": \"master\", \"maintainer_can_modify\": true, \"title\": \"[SDK] Sync to github.\", \"body\": \"$body\"}"
 fi
