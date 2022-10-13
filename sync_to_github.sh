@@ -1,5 +1,4 @@
 #!/bin/bash
-#TODO 环境变量的传递
 set -e
 export https_proxy=http://10.20.47.147:3128 \
        http_proxy=http://10.20.47.147:3128 \
