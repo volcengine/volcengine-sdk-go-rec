@@ -7,19 +7,19 @@ import (
 
 const (
 	// The URL template of "predict" request, which need fill with "scene" info when use
-	// Example: https://byteair-api-cn1.snssdk.com/predict/api/20013144/home
+	// Example: https://api.byteair.volces.com/predict/api/20013144/home
 	predictUrlFormat = "%s://%s/predict/api/%s/{}"
 
 	// The URL format of reporting the real exposure list
-	// Example: https://byteair-api-cn1.snssdk.com/predict/api/20013144/callback
+	// Example: https://api.byteair.volces.com/predict/api/20013144/callback
 	callbackUrlFormat = "%s://%s/predict/api/%s/callback"
 
 	// The URL format of data uploading
-	// Example: https://byteair-api-cn1.snssdk.com/data/api/20013144/user?method=write
+	// Example: https://api.byteair.volces.com/data/api/20013144/user?method=write
 	uploadUrlFormat = "%s://%s/data/api/%s/{}?method=%s"
 
 	// The URL format of marking a whole day data has been imported completely
-	// Example: https://byteair-api-cn1.snssdk.com/data/api/20013144/done?topic=user
+	// Example: https://api.byteair.volces.com/data/api/20013144/done?topic=user
 	doneUrlFormat = "%s://%s/data/api/%s/done?topic={}"
 )
 
@@ -29,23 +29,23 @@ type byteairURL struct {
 	tenant string
 
 	// The URL template of "predict" request, which need fill with "scene" info when use
-	// Example: https://byteair-api-cn1.snssdk.com/predict/api/20013144/home
+	// Example: https://api.byteair.volces.com/predict/api/20013144/home
 	predictUrlFormat string
 
 	// The URL of reporting the real exposure list
-	// Example: https://byteair-api-cn1.snssdk.com/predict/api/20013144/callback
+	// Example: https://api.byteair.volces.com/predict/api/20013144/callback
 	callbackURL string
 
 	// The URL of uploading real-time user data
-	// Example: https://byteair-api-cn1.snssdk.com/data/api/20013144/user?method=write
+	// Example: https://api.byteair.volces.com/data/api/20013144/user?method=write
 	writeDataURLFormat string
 
 	// The URL of importing daily offline user data
-	// Example: https://byteair-api-cn1.snssdk.com/data/api/20013144/user?method=import
+	// Example: https://api.byteair.volces.com/data/api/20013144/user?method=import
 	importDataURLFormat string
 
 	// The URL format of marking a whole day data has been imported completely
-	// Example: https://byteair-api-cn1.snssdk.com/data/api/20013144/done?topic=user
+	// Example: https://api.byteair.volces.com/data/api/20013144/done?topic=user
 	doneURLFormat string
 }
 
