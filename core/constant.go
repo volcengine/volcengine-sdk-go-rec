@@ -9,7 +9,7 @@ const (
 )
 
 var (
-	airCnHosts = []string{"byteair-api-cn1.snssdk.com"}
+	airCnHosts = []string{"api.byteair.volces.com"}
 	airSgHosts = []string{"byteair-api-sg1.byteintlapi.com"}
 )
 
