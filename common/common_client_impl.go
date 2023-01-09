@@ -1,6 +1,7 @@
 package common
 
 import (
+	"math/rand"
 	"strings"
 	"time"
 
@@ -24,7 +25,7 @@ type clientImpl struct {
 
 func (c *clientImpl) GetOperation(request *GetOperationRequest,
 	opts ...option.Option) (*OperationResponse, error) {
-	url := c.cu.getOperationUrl
+	url := c.cu.getOperationUrl[rand.Intn(len(c.cu.getOperationUrl))]
 	response := &OperationResponse{}
 	err := c.cli.DoPBRequest(url, request, response, option.Conv2Options(opts...))
 	if err != nil {
@@ -36,7 +37,7 @@ func (c *clientImpl) GetOperation(request *GetOperationRequest,
 
 func (c *clientImpl) ListOperations(request *ListOperationsRequest,
 	opts ...option.Option) (*ListOperationsResponse, error) {
-	url := c.cu.listOperationsUrl
+	url := c.cu.listOperationsUrl[rand.Intn(len(c.cu.listOperationsUrl))]
 	response := &ListOperationsResponse{}
 	err := c.cli.DoPBRequest(url, request, response, option.Conv2Options(opts...))
 	if err != nil {
@@ -51,7 +52,7 @@ func (c *clientImpl) Done(dateList []time.Time, topic string, opts ...option.Opt
 	for _, date := range dateList {
 		dates = c.appendDoneDate(dates, date)
 	}
-	url := strings.ReplaceAll(c.cu.doneUrlFormat, "{}", topic)
+	url := strings.ReplaceAll(c.cu.doneUrlFormat[rand.Intn(len(c.cu.doneUrlFormat))], "{}", topic)
 	request := &DoneRequest{
 		DataDates: dates,
 	}

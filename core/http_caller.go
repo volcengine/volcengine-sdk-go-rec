@@ -239,20 +239,11 @@ func (c *HTTPCaller) acquireRequest(url string,
 func (c *HTTPCaller) smartDoRequest(timeout time.Duration,
 	request *fasthttp.Request, response *fasthttp.Response) error {
 	var err error
-	if c.context.hostHeader != "" {
-		var httpCli = c.context.hostHTTPCli
-		if timeout > 0 {
-			err = httpCli.DoTimeout(request, response, timeout)
-		} else {
-			err = httpCli.Do(request, response)
-		}
+	var httpCli = c.context.defaultHTTPCli
+	if timeout > 0 {
+		err = httpCli.DoTimeout(request, response, timeout)
 	} else {
-		var httpCli = c.context.defaultHTTPCli
-		if timeout > 0 {
-			err = httpCli.DoTimeout(request, response, timeout)
-		} else {
-			err = httpCli.Do(request, response)
-		}
+		err = httpCli.Do(request, response)
 	}
 	return err
 }

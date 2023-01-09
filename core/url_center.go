@@ -1,5 +1,5 @@
 package core
 
 type URLCenter interface {
-	Refresh(host string)
+	Refresh(hosts []string)
 }
