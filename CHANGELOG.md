@@ -1,4 +1,8 @@
-# [](https://code.byted.org/byteair/volcengine-sdk-go-rec/compare/v1.0.1...v) (2023-02-20)
+# [](https://code.byted.org/byteair/volcengine-sdk-go-rec/compare/v1.1.0...v) (2023-04-03)
+
+
+
+# [1.1.0](https://code.byted.org/byteair/volcengine-sdk-go-rec/compare/v1.0.1...v1.1.0) (2023-02-20)
 
 
 ### Features
