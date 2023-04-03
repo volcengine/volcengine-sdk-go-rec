@@ -75,7 +75,6 @@ func (receiver *ClientBuilder) Build() (Client, error) {
 		Client:  common.NewClient(httpCaller, gu.cu),
 		hCaller: httpCaller,
 		gu:      gu,
-		hostAva: core.NewHostAvailabler(gu, context),
 	}
 	return client, nil
 }
@@ -86,6 +85,6 @@ func (receiver *ClientBuilder) buildByteairURL(context *core.Context) *byteairUR
 		tenant: context.Tenant(),
 		cu:     common.NewURL(context),
 	}
-	gu.Refresh(context.Hosts()[0])
+	gu.Refresh(context.Hosts())
 	return gu
 }

@@ -26,21 +26,29 @@ func NewURL(context *core.Context) *URL {
 type URL struct {
 	schema            string
 	tenant            string
-	getOperationUrl   string
-	listOperationsUrl string
-	doneUrlFormat     string
+	getOperationUrl   []string
+	listOperationsUrl []string
+	doneUrlFormat     []string
 }
 
-func (receiver *URL) Refresh(host string) {
-	receiver.getOperationUrl = receiver.generateOperationUrl(host, "get")
-	receiver.listOperationsUrl = receiver.generateOperationUrl(host, "list")
-	receiver.doneUrlFormat = receiver.generateDoneUrl(host)
+func (receiver *URL) Refresh(hosts []string) {
+	receiver.getOperationUrl = receiver.generateOperationUrl(hosts, "get")
+	receiver.listOperationsUrl = receiver.generateOperationUrl(hosts, "list")
+	receiver.doneUrlFormat = receiver.generateDoneUrl(hosts)
 }
 
-func (receiver *URL) generateOperationUrl(host string, method string) string {
-	return fmt.Sprintf(operationUrlFormat, receiver.schema, host, receiver.tenant, method)
+func (receiver *URL) generateOperationUrl(hosts []string, method string) []string {
+	format := make([]string, 0, len(hosts))
+	for _, host := range hosts {
+		format = append(format, fmt.Sprintf(operationUrlFormat, receiver.schema, host, receiver.tenant, method))
+	}
+	return format
 }
 
-func (receiver *URL) generateDoneUrl(host string) string {
-	return fmt.Sprintf(doneUrlFormat, receiver.schema, host, receiver.tenant)
+func (receiver *URL) generateDoneUrl(hosts []string) []string {
+	format := make([]string, 0, len(hosts))
+	for _, host := range hosts {
+		format = append(format, fmt.Sprintf(doneUrlFormat, receiver.schema, host, receiver.tenant))
+	}
+	return format
 }

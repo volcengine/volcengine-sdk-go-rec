@@ -65,11 +65,7 @@ func NewContext(param *ContextParam) (*Context, error) {
 	}
 	result.fillHosts(param)
 	result.fillVolcCredentials(param)
-	if param.HostHeader != "" {
-		result.hostHTTPCli = &fasthttp.HostClient{Addr: result.hosts[0]}
-	} else {
-		result.defaultHTTPCli = &fasthttp.Client{}
-	}
+	result.defaultHTTPCli = &fasthttp.Client{}
 	result.fillDefault()
 	return result, nil
 }
@@ -105,9 +101,6 @@ type Context struct {
 
 	// Customer-defined http headers, all requests will include these headers
 	customerHeaders map[string]string
-
-	// fasthttp default client not support define host
-	hostHTTPCli *fasthttp.HostClient
 
 	defaultHTTPCli *fasthttp.Client
 

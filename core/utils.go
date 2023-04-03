@@ -34,13 +34,15 @@ func IsTimeoutError(err error) bool {
 
 func ReportRequestSuccess(metricsPrefix, url string, begin time.Time) {
 	urlTag := buildUrlTags(url)
-	metrics.Latency(buildLatencyKey(metricsPrefix), begin, urlTag...)
-	metrics.Counter(buildCounterKey(metricsPrefix), 1, urlTag...)
+	tagKvs := appendBaseTags(urlTag)
+	metrics.Latency(buildLatencyKey(metricsPrefix), begin, tagKvs...)
+	metrics.Counter(buildCounterKey(metricsPrefix), 1, tagKvs...)
 }
 
 func ReportRequestError(metricsPrefix, url string, begin time.Time, code int, message string) {
 	urlTag := buildUrlTags(url)
 	tagKvs := append(urlTag, "code:"+strconv.Itoa(code), "message:"+message)
+	tagKvs = appendBaseTags(tagKvs)
 	metrics.Latency(buildLatencyKey(metricsPrefix), begin, tagKvs...)
 	metrics.Counter(buildCounterKey(metricsPrefix), 1, tagKvs...)
 }
@@ -48,6 +50,7 @@ func ReportRequestError(metricsPrefix, url string, begin time.Time, code int, me
 func ReportRequestException(metricsPrefix, url string, begin time.Time, err error) {
 	urlTag := buildUrlTags(url)
 	tagKvs := appendErrorTags(urlTag, err)
+	tagKvs = appendBaseTags(tagKvs)
 	metrics.Latency(buildLatencyKey(metricsPrefix), begin, tagKvs...)
 	metrics.Counter(buildCounterKey(metricsPrefix), 1, tagKvs...)
 }
@@ -68,24 +71,30 @@ func appendErrorTags(urlTag []string, err error) []string {
 }
 
 func buildUrlTags(url string) []string {
-	return []string{"url:" + adjustUrlTag(url), "req_type:" + parseReqType(url)}
+	switch {
+	case strings.Contains(url, "ping"):
+		return []string{"url:" + adjustUrlTag(url), "req_type:ping"}
+	case strings.Contains(url, "data/api"):
+		tenant, scene := parseTenantAndScene(url)
+		return []string{"url:" + adjustUrlTag(url), "req_type:data-api", "tenant:" + tenant, "scene:" + scene}
+	case strings.Contains(url, "predict/api"):
+		tenant, scene := parseTenantAndScene(url)
+		return []string{"url:" + adjustUrlTag(url), "req_type:predict-api", "tenant:" + tenant, "scene:" + scene}
+	default:
+		return []string{"url:" + adjustUrlTag(url), "req_type:unknown"}
+	}
 }
 
 func adjustUrlTag(url string) string {
 	return strings.ReplaceAll(url, "=", "_is_")
 }
 
-func parseReqType(url string) string {
-	if strings.Contains(url, "ping") {
-		return "ping"
+func parseTenantAndScene(url string) (tenant, scene string) {
+	sp := strings.Split(strings.Split(url, "?")[0], "/")
+	if len(sp) < 2 {
+		return "", ""
 	}
-	if strings.Contains(url, "data/api") {
-		return "data-api"
-	}
-	if strings.Contains(url, "predict/api") {
-		return "predict-api"
-	}
-	return "unknown"
+	return sp[len(sp)-2], sp[len(sp)-1]
 }
 
 func buildCounterKey(metricsPrefix string) string {
@@ -94,4 +103,10 @@ func buildCounterKey(metricsPrefix string) string {
 
 func buildLatencyKey(metricsPrefix string) string {
 	return metricsPrefix + "." + "latency"
+}
+
+const version = "1.1.0"
+
+func appendBaseTags(tags []string) []string {
+	return append(tags, "language:go", "version:"+version)
 }

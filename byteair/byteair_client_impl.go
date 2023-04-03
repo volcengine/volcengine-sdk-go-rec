@@ -3,6 +3,7 @@ package byteair
 import (
 	"errors"
 	"fmt"
+	"math/rand"
 	"strings"
 
 	. "github.com/volcengine/volcengine-sdk-go-rec/byteair/protocol"
@@ -26,19 +27,16 @@ type clientImpl struct {
 	common.Client
 	hCaller *HTTPCaller
 	gu      *byteairURL
-	hostAva *HostAvailabler
 }
 
-func (c *clientImpl) Release() {
-	c.hostAva.Shutdown()
-}
+func (c *clientImpl) Release() {}
 
 func (c *clientImpl) WriteData(dataList []map[string]interface{}, topic string,
 	opts ...option.Option) (*WriteResponse, error) {
 	if len(dataList) > MaxImportItemCount {
 		return nil, TooManyItemsErr
 	}
-	urlFormat := c.gu.writeDataURLFormat
+	urlFormat := c.gu.writeDataURLFormat[rand.Intn(len(c.gu.predictUrlFormat))]
 	url := strings.ReplaceAll(urlFormat, "{}", topic)
 	response := &WriteResponse{}
 	err := c.hCaller.DoJSONRequest(url, dataList, response, option.Conv2Options(opts...))
@@ -51,7 +49,7 @@ func (c *clientImpl) WriteData(dataList []map[string]interface{}, topic string,
 
 func (c *clientImpl) Predict(request *PredictRequest,
 	opts ...option.Option) (*PredictResponse, error) {
-	urlFormat := c.gu.predictUrlFormat
+	urlFormat := c.gu.predictUrlFormat[rand.Intn(len(c.gu.predictUrlFormat))]
 	//The options conversion should be placed in xxx_client_impl,
 	//so that each client_impl could do some special processing according to options
 	options := option.Conv2Options(opts...)
@@ -72,7 +70,7 @@ func (c *clientImpl) Predict(request *PredictRequest,
 
 func (c *clientImpl) Callback(request *CallbackRequest,
 	opts ...option.Option) (*CallbackResponse, error) {
-	url := c.gu.callbackURL
+	url := c.gu.callbackURL[rand.Intn(len(c.gu.callbackURL))]
 	response := &CallbackResponse{}
 	// If predict scene option is not filled, add default value
 	if request.Scene == "" {
