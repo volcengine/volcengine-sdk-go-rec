@@ -1,5 +1,5 @@
 syntax = "proto3";
-package metric;
+package volcengine.recommend.metrics;
 
 option go_package = "github.com/volcengine/volcengine-sdk-go-rec/core/metrics";
 
