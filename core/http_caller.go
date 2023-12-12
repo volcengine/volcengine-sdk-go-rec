@@ -106,7 +106,7 @@ func (c *HTTPCaller) withOptionHeaders(headers map[string]string, options *optio
 		headers["Request-Id"] = options.RequestId
 	}
 	if !options.DataDate.IsZero() {
-		headers["Content-Date"] = options.DataDate.Format(time.RFC3339)
+		headers["Content-Date"] = options.DataDate.Format("2006-01-02")
 	}
 	if options.DataIsEnd {
 		headers["Content-End"] = "true"
