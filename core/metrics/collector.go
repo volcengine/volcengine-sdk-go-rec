@@ -47,8 +47,7 @@ type metricValue struct {
 // Init As long as the Init function is called, the metrics are enabled
 func Init(options ...Option) {
 	// if no options, set to default config
-	metricsCfg = &config{
-		domain:        defaultMetricsDomain,
+	tmpCfg := &config{
 		flushInterval: defaultFlushInterval,
 		prefix:        defaultMetricsPrefix,
 		httpSchema:    defaultHttpSchema,
@@ -56,8 +55,13 @@ func Init(options ...Option) {
 		httpTimeoutMs: defaultHttpTimeout,
 	}
 	for _, option := range options {
-		option(metricsCfg)
+		option(tmpCfg)
 	}
+	if tmpCfg.domain == "" {
+		logs.Error("metrics domain is null")
+		return
+	}
+	metricsCfg = tmpCfg
 	metricsCollector = &collector{
 		httpCli: &fasthttp.Client{},
 		collectors: map[metricsType]map[string]*metricValue{

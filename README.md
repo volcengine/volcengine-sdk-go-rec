@@ -22,14 +22,18 @@ func init() {
 		TenantId("xxx").
 		// 必传,项目id.
 		ApplicationId("xxx").
-		// 必传,密钥AK,获取方式:【火山引擎控制台】->【个人信息】->【密钥管理】中获取.
+		// 必传,密钥AK.
 		AK("xxx").
-		// 必传,密钥SK,获取方式:【火山引擎控制台】->【个人信息】->【密钥管理】中获取.
+		// 必传,密钥SK.
 		SK("xxx").
-		// 必传,国内使用RegionAirCn.
-		Region(core.RegionAirCn).
+		// 必传,域名.
+		Hosts([]string{"xxx"}).
 		Build()
-	metrics.Init() // metrics上报init.建议开启,方便字节侧排查问题.
+	// metrics上报init.建议开启,方便字节侧排查问题.
+	metrics.Init(
+		// 域名同上
+		metrics.WithMetricsDomain("xxx"),
+	)  
 	logs.Level = logs.LevelInfo
 }
 

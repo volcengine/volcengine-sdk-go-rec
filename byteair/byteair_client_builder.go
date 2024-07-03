@@ -44,11 +44,6 @@ func (receiver *ClientBuilder) Headers(headers map[string]string) *ClientBuilder
 	return receiver
 }
 
-func (receiver *ClientBuilder) Region(region core.Region) *ClientBuilder {
-	receiver.param.Region = region
-	return receiver
-}
-
 func (receiver *ClientBuilder) AK(ak string) *ClientBuilder {
 	receiver.param.AK = ak
 	return receiver

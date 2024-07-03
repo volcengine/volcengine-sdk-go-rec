@@ -1,27 +1,13 @@
 package core
 
-type Region int
-
-const (
-	RegionUnknown Region = iota
-	RegionAirCn
-	RegionAirSg
-)
-
-var (
-	airCnHosts = []string{"api.byteair.volces.com"}
-	airSgHosts = []string{"byteair-api-sg1.byteintlapi.com"}
-)
-
 const (
 	MaxWriteItemCount = 2000
 
 	MaxImportItemCount = 10000
 
 	// All requests will have a XXXResponse corresponding to them,
-	// and a‘ll XXXResponses will contain a 'Status' field.
+	// and all XXXResponses will contain a 'Status' field.
 	// The status of this request can be determined by the value of `Status.Code`
-	// Detail error code info：https://docs.byteplus.com/docs/error-code
 
 	// StatusCodeSuccess The request was executed successfully without any exception
 	StatusCodeSuccess = 0

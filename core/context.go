@@ -16,7 +16,6 @@ type ContextParam struct {
 	HostHeader string
 	Hosts      []string
 	Headers    map[string]string
-	Region     Region
 	UseAirAuth bool
 }
 
@@ -27,11 +26,11 @@ func (receiver *ContextParam) checkRequiredField(param *ContextParam) error {
 	if param.TenantId == "" {
 		return errors.New("tenant id is null")
 	}
+	if len(param.Hosts) == 0 {
+		return errors.New("hosts is null")
+	}
 	if err := receiver.checkAuthRequiredField(param); err != nil {
 		return err
-	}
-	if param.Region == RegionUnknown {
-		return errors.New("region is null")
 	}
 	return nil
 }
@@ -40,11 +39,9 @@ func (receiver *ContextParam) checkAuthRequiredField(param *ContextParam) error 
 	if param.UseAirAuth && param.Token == "" {
 		return errors.New("token is null")
 	}
-
 	if !param.UseAirAuth && (param.AK == "" || param.SK == "") {
 		return errors.New("ak or sk is null")
 	}
-
 	return nil
 }
 
@@ -63,7 +60,6 @@ func NewContext(param *ContextParam) (*Context, error) {
 		customerHeaders: param.Headers,
 		useAirAuth:      param.UseAirAuth,
 	}
-	result.fillHosts(param)
 	result.fillVolcCredentials(param)
 	result.defaultHTTPCli = &fasthttp.Client{}
 	result.fillDefault()
@@ -152,21 +148,6 @@ func (receiver *Context) CustomerHeaders() map[string]string {
 	return receiver.customerHeaders
 }
 
-func (receiver *Context) fillHosts(param *ContextParam) {
-	if len(param.Hosts) > 0 {
-		receiver.hosts = param.Hosts
-		return
-	}
-	if param.Region == RegionAirCn {
-		receiver.hosts = airCnHosts
-		return
-	}
-	if param.Region == RegionAirSg {
-		receiver.hosts = airSgHosts
-		return
-	}
-}
-
 func (receiver *Context) fillDefault() {
 	if receiver.schema == "" {
 		receiver.schema = "https"
@@ -174,19 +155,10 @@ func (receiver *Context) fillDefault() {
 }
 
 func (receiver *Context) fillVolcCredentials(param *ContextParam) {
-	c := Credential{
+	receiver.volcCredentials = Credential{
 		AccessKeyID:     param.AK,
 		SecretAccessKey: param.SK,
 		Service:         volcAuthService,
+		Region:          "placeholder",
 	}
-
-	// fill region
-	switch param.Region {
-	case RegionAirSg:
-		c.Region = "ap-singapore-1"
-	default: //Region "CN" and "AIR_CN" belong to "cn-north-1"
-		c.Region = "cn-north-1"
-	}
-
-	receiver.volcCredentials = c
 }

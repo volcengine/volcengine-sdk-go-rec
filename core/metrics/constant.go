@@ -3,8 +3,6 @@ package metrics
 import "time"
 
 const (
-	// TODO 根据region动态选择defaultMetricsDomain
-	defaultMetricsDomain = "api.byteair.volces.com"
 	defaultMetricsPrefix = "volcengine.rec.sdk"
 	defaultHttpSchema    = "https"
 

@@ -8,11 +8,9 @@ import (
 
 const (
 	// The URL format of operation information
-	// Example: https://tob.sgsnssdk.com/data/api/retail_demo/operation?method=get
 	operationUrlFormat = "%s://%s/data/api/%s/operation?method=%s"
 
 	// The URL of mark certain days that data synchronization is complete
-	// Example: https://tob.sgsnssdk.com/data/api/retail_demo/done?topic=user
 	doneUrlFormat = "%s://%s/data/api/%s/done?topic={}"
 )
 
