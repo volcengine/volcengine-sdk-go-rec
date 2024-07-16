@@ -13,6 +13,7 @@ func metricsInit() {
 	logs.Level = logs.LevelDebug
 	// To close the metrics, just remove the Init function
 	Init(
+		WithMetricsDomain("api.byteair.volces.com"),
 		WithMetricsLog(),
 		WithFlushInterval(10*time.Second),
 	)
