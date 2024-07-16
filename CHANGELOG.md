@@ -1,4 +1,13 @@
-# [](/byteair/volcengine-sdk-go-rec/compare/v1.1.2...v) (2023-12-12)
+# [](/byteair/volcengine-sdk-go-rec/compare/v1.1.3...v) (2024-07-16)
+
+
+
+## [1.1.3](/byteair/volcengine-sdk-go-rec/compare/v1.1.2...v1.1.3) (2024-07-04)
+
+
+### Features
+
+* 去除region参数 ([c054196](/byteair/volcengine-sdk-go-rec/commits/c054196e2325fc071b992b7072d041da8de2b25a))
 
 
 
